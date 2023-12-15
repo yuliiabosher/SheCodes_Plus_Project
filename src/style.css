@@ -85,6 +85,10 @@ a {
 .weather-forecast-temperatures {
   font-size: 13px;
 }
+.weather-forecast {
+  display: flex;
+  justify-content: space-between;
+}
 main {
   padding: 30px 0;
 }

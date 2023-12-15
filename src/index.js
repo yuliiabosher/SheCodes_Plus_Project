@@ -49,3 +49,24 @@ function formatDate(dateObject) {
   }
   return `${day} ${hours}:${minutes}`;
 }
+let forecastHTML = "";
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHTML += `<div class="weather-forecast-day">
+              <div class="weather-forecast-date">${day}</div>
+              <img
+                src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/scattered-clouds-night.png"
+                alt=""
+                width="42"
+              />
+              <div class="weather-forecast-temperatures">
+                <span class="weather-forecast-temperature-max">18°</span>
+                <span class="weather-forecast-temperature-min">12°</span>
+              </div>
+            </div>`;
+  });
+  forecastElement.innerHTML = forecastHTML;
+}
+displayForecast();

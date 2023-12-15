@@ -32,41 +32,32 @@ function handleSearchSubmit(event) {
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 searchCity("Kyiv");
-function formatDate(dateObject) {
-  let hours = dateObject.getHours();
-  let minutes = dateObject.getMinutes();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let day = days[dateObject.getDay()];
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  return `${day} ${hours}:${minutes}`;
-}
-let forecastHTML = "";
-function displayForecast(response) {
-  let forecastElement = document.querySelector("#forecast");
+
+function formatDate(timestamp) {
+  let date = new Date(timestamp * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  days.forEach(function (day) {
-    forecastHTML += `<div class="weather-forecast-day">
-              <div class="weather-forecast-date">${day}</div>
+  return days[date.getDay()];
+}
+
+function displayForecast(response) {
+  let forecastHTML = "";
+  let forecastElement = document.querySelector("#forecast");
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHTML += `<div class="weather-forecast-day">
+              <div class="weather-forecast-date">${formatDate(day.time)}</div>
               <img
-                src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/scattered-clouds-night.png"
-                alt=""
-                width="42"
-              />
+                src="${day.condition.icon_url}"/>
               <div class="weather-forecast-temperatures">
-                <span class="weather-forecast-temperature-max">18°</span>
-                <span class="weather-forecast-temperature-min">12°</span>
+                <span class="weather-forecast-temperature-max">${Math.round(
+                  day.temperature.maximum
+                )}°</span>
+                <span class="weather-forecast-temperature-min">${Math.round(
+                  day.temperature.minimum
+                )}°</span>
               </div>
             </div>`;
+    }
   });
   forecastElement.innerHTML = forecastHTML;
 }
